@@ -7,6 +7,7 @@ use App\Http\Requests\ModuleStoreRequest;
 use App\Models\Module;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Brian2694\Toastr\Facades\Toastr;
 
 class ModuleController extends Controller
 {
@@ -37,6 +38,7 @@ class ModuleController extends Controller
             'module_slug' => Str::slug($request->module_name),
         ]);
 
+        Toastr::success('Module Created Successfully.');
         return redirect()->route('module.index');
     }
 

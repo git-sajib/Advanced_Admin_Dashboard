@@ -11,6 +11,9 @@
  <!-- Vendors JS -->
  {{-- <script src="{{ asset('admin') }}/assets/vendor/libs/apex-charts/apexcharts.js"></script> --}}
 
+ <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+ {!! Toastr::message() !!}
+
  <!-- Main JS -->
  <script src="{{ asset('admin') }}/assets/js/main.js"></script>
 
