@@ -55,15 +55,23 @@ class ModuleController extends Controller
      */
     public function edit(string $id)
     {
-        dd($id);
+        $module = Module::find($id);
+        return view('admin.pages.module.edit', compact('module'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ModuleStoreRequest $request, string $id)
     {
-        //
+        $module = Module::find($id);
+        $module->update([
+            'module_name' => $request->module_name,
+            'module_slug' => Str::slug($request->module_name),
+        ]);
+
+        Toastr::success('Module Updated Successfully.');
+        return redirect()->route('module.index');
     }
 
     /**
@@ -71,6 +79,10 @@ class ModuleController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $module = Module::find($id);
+        $module->delete();
+
+        Toastr::success('Module Deleted Successfully.');
+        return redirect()->route('module.index');
     }
 }

@@ -41,8 +41,16 @@
                                                 <a class="dropdown-item" href="{{ route('module.edit', $module->id) }}"><i
                                                         class="bx bx-edit-alt me-1"></i>
                                                     Edit</a>
-                                                <a class="dropdown-item" href=""><i class="bx bx-trash me-1"></i>
-                                                    Delete</a>
+
+                                                <form action="{{ route('module.destroy', $module->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="dropdown-item popup_alert">
+                                                        <i class="bx bx-trash me-1"></i>
+                                                        Delete
+                                                    </button>
+                                                </form>
+
                                             </div>
                                         </div>
                                     </td>
@@ -60,4 +68,30 @@
 @endsection
 
 @push('admin_script')
+    <script>
+        $(document).ready(function() {
+            $('.popup_alert').click(function(event) {
+                let form = $(this).closest('form');
+                event.preventDefault();
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                        Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        )
+                    }
+                })
+            });
+        });
+    </script>
 @endpush
