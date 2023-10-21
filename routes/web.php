@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\ModuleController;
+use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -28,4 +29,5 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     // Resource Routes
     Route::resource('/module', ModuleController::class);
+    Route::resource('/permission', PermissionController::class);
 });
