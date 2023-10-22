@@ -7,6 +7,9 @@ use App\Http\Requests\PermissionStoreRequest;
 use App\Models\Module;
 use App\Models\Permission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Brian2694\Toastr\Facades\Toastr;
+
 
 class PermissionController extends Controller
 {
@@ -15,7 +18,8 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        $permissions = Permission::with(['module:id,module_name,module_slug'])->select(['id', 'module_id', 'permission_name', 'permission_slug', 'updated_at'])->get();
+        $permissions = Permission::with(['module:id,module_name,module_slug'])->select(['id', 'module_id', 'permission_name', 'permission_slug', 'updated_at'])->latest()->paginate();
+        // return $permissions;
         return view('admin.pages.permission.index', compact('permissions'));
     }
 
@@ -33,7 +37,14 @@ class PermissionController extends Controller
      */
     public function store(PermissionStoreRequest $request)
     {
-        dd($request->all());
+        Permission::updateOrCreate([
+            'module_id' => $request->module_id,
+            'permission_name' => $request->permission_name,
+            'permission_slug' => Str::slug($request->permission_name),
+        ]);
+
+        Toastr::success('Permission Created Successfully.');
+        return redirect()->route('permission.index');
     }
 
     /**

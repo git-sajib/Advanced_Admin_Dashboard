@@ -2,6 +2,7 @@
 @section('page_title', 'Permission Index')
 
 @push('admin_style')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 @endpush
 
 @section('admin_content')
@@ -12,8 +13,8 @@
                     <h5 class="card-header">Permission Index</h5>
                     <a href="{{ route('permission.create') }}" class="btn btn-primary me-4">Add New</a>
                 </div>
-                <div class="table-responsive text-nowrap">
-                    <table class="table table-hover">
+                <div class="table-responsive text-nowrap px-3 py-1">
+                    <table class="table table-hover" id="myTable">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -27,7 +28,7 @@
                         <tbody class="table-border-bottom-0">
                             @forelse ($permissions as $permission)
                                 <tr>
-                                    <td><strong>{{ $loop->index + 1 }}</strong>
+                                    <td><strong>{{ $permissions->firstItem() + $loop->index }}</strong>
                                     </td>
                                     <td>{{ $permission->updated_at->format('d-M-Y') }}</td>
                                     <td>{{ $permission->module->module_name }}</td>
@@ -66,13 +67,18 @@
                     </table>
                 </div>
             </div>
+            {{-- <div class="my-4">
+                {{ $permissions->links() }}
+            </div> --}}
         </div>
     </div>
 
 @endsection
 
 @push('admin_script')
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script>
+        let table = new DataTable('#myTable');
         $(document).ready(function() {
             $('.popup_alert').click(function(event) {
                 let form = $(this).closest('form');
