@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Module;
 use App\Models\Role;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,8 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.role.create');
+        $modules = Module::with(['permissions:id,module_id,permission_name,permission_slug'])->select(['id', 'module_name'])->get();
+        return view('admin.pages.role.create', compact('modules'));
     }
 
     /**
@@ -30,7 +32,7 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**
