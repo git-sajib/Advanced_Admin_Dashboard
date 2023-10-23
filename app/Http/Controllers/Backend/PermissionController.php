@@ -60,15 +60,25 @@ class PermissionController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $permission = Permission::find($id);
+        $modules = Module::select(['id', 'module_name'])->get();
+        return view('admin.pages.permission.edit', compact('modules', 'permission'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PermissionStoreRequest $request, string $id)
     {
-        //
+        $permission = Permission::find($id);
+        $permission->update([
+            'module_id' => $request->module_id,
+            'permission_name' => $request->permission_name,
+            'permission_slug' => Str::slug($request->permission_name),
+        ]);
+
+        Toastr::success('Permission Updated Successfully.');
+        return redirect()->route('permission.index');
     }
 
     /**
@@ -76,6 +86,10 @@ class PermissionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $permission = Permission::find($id);
+        $permission->delete();
+
+        Toastr::success('Permission Deleted Successfully.');
+        return redirect()->route('permission.index');
     }
 }
