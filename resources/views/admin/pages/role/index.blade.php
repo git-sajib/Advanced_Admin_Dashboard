@@ -2,7 +2,6 @@
 @section('page_title', 'Role Index')
 
 @push('admin_style')
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 @endpush
 
 @section('admin_content')
@@ -84,7 +83,6 @@
 
 @push('admin_script')
     <script>
-        let table = new DataTable('#myTable');
         $(document).ready(function() {
             $('.popup_alert').click(function(event) {
                 let form = $(this).closest('form');
