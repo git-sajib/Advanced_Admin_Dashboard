@@ -10,6 +10,7 @@ use App\Models\Role;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Support\Facades\Gate;
 
 class RoleController extends Controller
 {
@@ -18,6 +19,7 @@ class RoleController extends Controller
      */
     public function index()
     {
+        Gate::authorize('index-role'); //authorize this user to access/give access to admin dashboard;
         $roles = Role::with(['permissions:id,permission_name,permission_slug'])->select(['id', 'role_name', 'is_deletable', 'updated_at'])->get();
         return view('admin.pages.role.index', compact('roles'));
     }
@@ -27,6 +29,7 @@ class RoleController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create-role'); //authorize this user to access/give access to admin dashboard;
         $modules = Module::with(['permissions:id,module_id,permission_name,permission_slug'])->select(['id', 'module_name'])->get();
         return view('admin.pages.role.create', compact('modules'));
     }
@@ -36,6 +39,7 @@ class RoleController extends Controller
      */
     public function store(RoleStoreRequest $request)
     {
+        Gate::authorize('create-role'); //authorize this user to access/give access to admin dashboard;
         Role::updateOrCreate([
             'role_name' => $request->role_name,
             'role_slug' => Str::slug($request->role_name),
@@ -59,6 +63,7 @@ class RoleController extends Controller
      */
     public function edit(string $id)
     {
+        Gate::authorize('edit-role'); //authorize this user to access/give access to admin dashboard;
         $role = Role::find($id);
         $modules = Module::with(['permissions:id,module_id,permission_name,permission_slug'])->select(['id', 'module_name'])->get();
         return view('admin.pages.role.edit', compact('modules', 'role'));
@@ -69,6 +74,7 @@ class RoleController extends Controller
      */
     public function update(RoleUpdateRequest $request, string $id)
     {
+        Gate::authorize('edit-role'); //authorize this user to access/give access to admin dashboard;
         $role = Role::find($id);
         $role->update([
             'role_name' => $request->role_name,
@@ -87,6 +93,7 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
+        Gate::authorize('delete-role'); //authorize this user to access/give access to admin dashboard;
         $role = Role::find($id);
         if ($role->is_deletable) {
             $role->delete();
