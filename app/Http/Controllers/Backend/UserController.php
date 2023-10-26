@@ -40,7 +40,7 @@ class UserController extends Controller
      */
     public function store(UserStoreRequest $request)
     {
-        User::UpdateOrCreate([
+        User::updateOrCreate([
             'role_id' => $request->role_id,
             'name' => $request->name,
             'email' => $request->email,
@@ -66,7 +66,9 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user = User::find($id);
+        $roles = Role::select('id', 'role_name')->get();
+        return view('admin.pages.users.edit', compact('roles', 'user'));
     }
 
     /**
@@ -74,7 +76,16 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, string $id)
     {
-        //
+        $user = User::find($id);
+        $user->update([
+            'role_id' => $request->role_id,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        Toastr::success('User Updated Successfully.');
+        return redirect()->route('users.index');
     }
 
     /**
@@ -82,6 +93,9 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::find($id);
+        $user->delete();
+        Toastr::success('User Deleted Successfully.');
+        return redirect()->route('users.index');
     }
 }

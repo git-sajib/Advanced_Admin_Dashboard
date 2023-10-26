@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('page_title', 'Permission Edit')
+@section('page_title', 'User Edit')
 
 @push('admin_style')
 @endpush
@@ -9,27 +9,27 @@
         <div class="col">
             <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Edit Permission</h5>
+                    <h5 class="mb-0">User Edit Form</h5>
                     <small class="text-muted float-end">
-                        <a href="{{ route('permission.index') }}" class="btn btn-secondary"><i class="bx bx-arrow-back"></i>
+                        <a href="{{ route('users.index') }}" class="btn btn-secondary"><i class="bx bx-arrow-back"></i>
                             Back
-                            to Permission</a></small>
+                            to User</a></small>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('permission.update', $permission->id) }}" method="POST">
+                    <form action="{{ route('users.update', $user->id) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
-                            <label for="" class="form-label">Module Selection</label>
-                            <select name="module_id" class="form-select  @error('module_id') is-invalid @enderror"
+                            <label for="" class="form-label">Role Selection</label>
+                            <select name="role_id" class="form-select  @error('role_id') is-invalid @enderror"
                                 id="">
-                                <option value="">Select a module</option>
-                                @foreach ($modules as $module)
-                                    <option value="{{ $module->id }}" @if ($permission->module_id == $module->id) selected @endif>
-                                        {{ $module->module_name }}</option>
+                                <option value="">Select a Role</option>
+                                @foreach ($roles as $role)
+                                    <option value="{{ $role->id }}" @if ($role->id == $user->role_id) selected @endif>
+                                        {{ $role->role_name }}</option>
                                 @endforeach
                             </select>
-                            @error('module_id')
+                            @error('role_id')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -37,11 +37,35 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label" for="basic-default-fullname">Permission Name</label>
-                            <input type="text" name="permission_name" value="{{ $permission->permission_name }}"
-                                class="form-control  @error('permission_name')is-invalid @enderror"
-                                id="basic-default-fullname" placeholder="Enter a permission name">
-                            @error('permission_name')
+                            <label class="form-label" for="basic-default-fullname">User Name</label>
+                            <input type="text" name="name" value="{{ $user->name }}"
+                                class="form-control  @error('name')is-invalid @enderror" id="basic-default-fullname"
+                                placeholder="Enter a username">
+                            @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-default-fullname">User Email</label>
+                            <input type="email" name="email" value="{{ $user->email }}"
+                                class="form-control  @error('email')is-invalid @enderror" id="basic-default-fullname"
+                                placeholder="Enter user email">
+                            @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-default-fullname">User Password</label>
+                            <input type="password" name="password"
+                                class="form-control  @error('password')is-invalid @enderror" id="basic-default-fullname"
+                                placeholder="Enter user password">
+                            @error('password')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
