@@ -22,7 +22,14 @@
                         @csrf
                         <div class="mb-3">
                             <label class="form-label" for="profile-image">Upload Image</label>
-                            <input type="file" name="user_image" class="dropify" data-default-file="" />
+                            <input type="file" name="user_image"
+                                class="dropify @error('user_image') is-invalid @enderror"
+                                data-default-file="{{ asset('uploads/profile_images') }}/{{ $authUser->user_image }}" />
+                            @error('user_image')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="basic-default-fullname">User Name</label>
@@ -60,6 +67,10 @@
         integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-        $('.dropify').dropify();
+        $('.dropify').dropify({
+            messages: {
+                'default': 'Upload profile image',
+            }
+        });
     </script>
 @endpush
