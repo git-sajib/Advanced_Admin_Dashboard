@@ -20,7 +20,7 @@ class ProfileController extends Controller
 
     public function updateProfile(ProfileStoreRequest $request)
     {
-        $user = User::whereEmail('admin1@gmail.com')->first();
+        $user = User::whereEmail($request->email)->first();
         $this->image_upload($request, $user->id);
 
         Toastr::success('Profile Updated Successfully!');

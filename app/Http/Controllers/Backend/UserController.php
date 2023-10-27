@@ -22,7 +22,7 @@ class UserController extends Controller
     {
         Gate::authorize('index-user'); //authorize this user to access/give access to admin dashboard;
         $users = User::with(['role:id,role_name,role_slug'])
-            ->select(['id', 'role_id', 'name', 'email', 'is_active', 'updated_at'])
+            ->select(['id', 'role_id', 'name', 'email', 'user_image', 'is_active', 'updated_at'])
             ->latest()
             ->paginate();
         return view('admin.pages.users.index', compact('users'));
@@ -101,6 +101,11 @@ class UserController extends Controller
     {
         Gate::authorize('delete-user'); //authorize this user to access/give access to admin dashboard;
         $user = User::find($id);
+        //delete old photo
+        if ($user->user_image != null) {
+            $old_photo_path = 'public/uploads/profile_images/' . $user->user_image;
+            unlink(base_path($old_photo_path));
+        }
         $user->delete();
         Toastr::success('User Deleted Successfully.');
         return redirect()->route('users.index');
