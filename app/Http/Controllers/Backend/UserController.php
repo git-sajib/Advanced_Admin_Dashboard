@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -19,6 +20,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        Gate::authorize('index-user'); //authorize this user to access/give access to admin dashboard;
         $users = User::with(['role:id,role_name,role_slug'])
             ->select(['id', 'role_id', 'name', 'email', 'is_active', 'updated_at'])
             ->latest()
@@ -31,6 +33,7 @@ class UserController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create-user'); //authorize this user to access/give access to admin dashboard;
         $roles = Role::select('id', 'role_name')->get();
         return view('admin.pages.users.create', compact('roles'));
     }
@@ -40,6 +43,7 @@ class UserController extends Controller
      */
     public function store(UserStoreRequest $request)
     {
+        Gate::authorize('create-user'); //authorize this user to access/give access to admin dashboard;
         User::updateOrCreate([
             'role_id' => $request->role_id,
             'name' => $request->name,
@@ -66,6 +70,7 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
+        Gate::authorize('edit-user'); //authorize this user to access/give access to admin dashboard;
         $user = User::find($id);
         $roles = Role::select('id', 'role_name')->get();
         return view('admin.pages.users.edit', compact('roles', 'user'));
@@ -76,6 +81,7 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, string $id)
     {
+        Gate::authorize('edit-user'); //authorize this user to access/give access to admin dashboard;
         $user = User::find($id);
         $user->update([
             'role_id' => $request->role_id,
@@ -93,6 +99,7 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
+        Gate::authorize('delete-user'); //authorize this user to access/give access to admin dashboard;
         $user = User::find($id);
         $user->delete();
         Toastr::success('User Deleted Successfully.');
