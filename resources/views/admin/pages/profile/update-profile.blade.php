@@ -20,6 +20,7 @@
                 <div class="card-body">
                     <form action="{{ route('postupdate.profile') }}" method="POST" enctype="multipart/form-data">
                         @csrf
+
                         <div class="mb-3">
                             <label class="form-label" for="profile-image">Upload Image</label>
                             <input type="file" name="user_image"
