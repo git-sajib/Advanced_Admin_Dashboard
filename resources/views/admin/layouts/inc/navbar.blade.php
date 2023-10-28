@@ -66,7 +66,7 @@
                          </a>
                      </li>
                      <li>
-                         <a class="dropdown-item" href="#">
+                         <a class="dropdown-item" href="{{ route('getupdate.password') }}">
                              <i class="bx bx-lock me-2"></i>
                              <span class="align-middle">Change Password</span>
                          </a>
