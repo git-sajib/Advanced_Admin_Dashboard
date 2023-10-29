@@ -5,6 +5,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css"
         integrity="sha512-EZSUkJWTjzDlspOoPSpUFR0o0Xy7jdzW//6qhUkoZ9c4StFkVsp9fbbd0O06p9ELS3H486m4wmrCELjza4JEog=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        #container {
+            width: 1000px;
+            margin: 20px auto;
+        }
+
+        .ck-editor__editable[role="textbox"] {
+            /* editing area */
+            min-height: 100px;
+        }
+
+        .ck-content .image {
+            /* block images */
+            max-width: 80%;
+            margin: 20px auto;
+        }
+    </style>
 @endpush
 
 @section('admin_content')
@@ -19,7 +36,7 @@
                             to Page List</a></small>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('page.store') }}" method="POST">
+                    <form action="{{ route('page.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
@@ -43,7 +60,7 @@
                                             <label class="form-label" for="page_title">Page Title</label>
                                             <input type="text" name="page_title"
                                                 class="form-control  @error('page_title')is-invalid @enderror"
-                                                id="page_title" placeholder="Enter a page title">
+                                                id="page_title" placeholder="page title">
                                             @error('page_title')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -53,10 +70,11 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="page_slug">Page Slug</label>
+                                            <label class="form-label" for="page_slug">Page Slug <small
+                                                    class="text-danger text-lowercase">(Ex: about-us)*</small></label>
                                             <input type="text" name="page_slug"
                                                 class="form-control  @error('page_slug')is-invalid @enderror" id="page_slug"
-                                                placeholder="Enter a page title">
+                                                placeholder="page-slug">
                                             @error('page_slug')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -72,7 +90,7 @@
                                             <label class="form-label" for="meta_title">Meta Title</label>
                                             <input type="text" name="meta_title"
                                                 class="form-control  @error('meta_title')is-invalid @enderror"
-                                                id="meta_title" placeholder="Enter a page title">
+                                                id="meta_title" placeholder="meta title">
                                             @error('meta_title')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -85,7 +103,7 @@
                                             <label class="form-label" for="meta_keywords">Meta Keywords</label>
                                             <input type="text" name="meta_keywords"
                                                 class="form-control  @error('meta_keywords')is-invalid @enderror"
-                                                id="meta_keywords" placeholder="Enter a page title">
+                                                id="meta_keywords" placeholder="meta keywords">
                                             @error('meta_keywords')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -146,6 +164,29 @@
 @endsection
 
 @push('admin_script')
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#page_short'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#page_long'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#meta_description'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"
         integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
