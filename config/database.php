@@ -60,6 +60,7 @@ return [
             'engine' => null,
             'dump' => [
                 'dump_binary_path' => 'C:\laragon\bin\mysql\mysql-8.0.30-winx64\bin', //only the path where laragon/xampp installed called mysqldump;
+                /* for server: 'dump_binary_path' => 'yourdomain/project-name/public' */
                 'use_single_transaction',
                 'timeout' => 60 * 5, //5 min
             ],
