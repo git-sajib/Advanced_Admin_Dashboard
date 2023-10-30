@@ -10,6 +10,7 @@ use App\Models\Page;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Intervention\Image\Facades\Image;
 
 class PageController extends Controller
@@ -19,6 +20,7 @@ class PageController extends Controller
      */
     public function index()
     {
+        Gate::authorize('index-page');
         $pages = Page::select(['id', 'page_title', 'page_slug', 'meta_title', 'meta_keywords', 'is_active', 'updated_at'])->paginate();
         return view('admin.pages.page-builder.index', compact('pages'));
     }
@@ -28,6 +30,7 @@ class PageController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create-page');
         return view('admin.pages.page-builder.create');
     }
 
@@ -36,6 +39,7 @@ class PageController extends Controller
      */
     public function store(PageStoreRequest $request)
     {
+        Gate::authorize('create-page');
         $page = Page::updateOrCreate([
             'page_title' => $request->page_title,
             'page_slug' => $request->page_slug ?? Str::slug($request->page_title),
@@ -66,6 +70,7 @@ class PageController extends Controller
      */
     public function edit(string $id)
     {
+        Gate::authorize('edit-page');
         $page = Page::find($id);
         return view('admin.pages.page-builder.edit', compact('page'));
     }
@@ -75,6 +80,7 @@ class PageController extends Controller
      */
     public function update(PageUpdateRequest $request, string $id)
     {
+        Gate::authorize('edit-page');
         $page = Page::find($id);
         $page->update([
             'page_title' => $request->page_title,
@@ -98,6 +104,7 @@ class PageController extends Controller
      */
     public function destroy(string $id)
     {
+        Gate::authorize('delete-page');
         $page = Page::find($id);
         //delete old photo
         if ($page->page_image != null) {
@@ -111,6 +118,7 @@ class PageController extends Controller
 
     function checkActive($page_id)
     {
+        Gate::authorize('edit-page');
         $page = Page::find($page_id);
         // toggle the is_active
         if ($page->is_active == 1) {

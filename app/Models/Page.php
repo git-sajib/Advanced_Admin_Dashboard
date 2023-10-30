@@ -10,4 +10,10 @@ class Page extends Model
 {
     use HasFactory, SoftDeletes;
     protected $guarded = ['id'];
+
+    //static method for finding page details using slug
+    public static function findBySlug($page_slug)
+    {
+        return self::where('page_slug', $page_slug)->where('is_active', 1)->firstOrFail();
+    }
 }
