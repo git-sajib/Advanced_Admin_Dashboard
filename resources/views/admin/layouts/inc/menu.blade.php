@@ -104,7 +104,7 @@
           @can('index-module')
               <li class="menu-item">
                   <a href="javascript:void(0);" class="menu-link menu-toggle">
-                      <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                      <i class="menu-icon tf-icons bx bxs-dock-top"></i>
                       <div data-i18n="Account Settings">Module Settings</div>
                   </a>
                   <ul class="menu-sub">
@@ -125,7 +125,7 @@
           @can('index-permission')
               <li class="menu-item">
                   <a href="javascript:void(0);" class="menu-link menu-toggle">
-                      <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
+                      <i class="menu-icon tf-icons bx bxs-lock-open-alt"></i>
                       <div data-i18n="Account Settings">Permission Settings</div>
                   </a>
                   <ul class="menu-sub">
@@ -146,7 +146,7 @@
           @can('index-role')
               <li class="menu-item">
                   <a href="javascript:void(0);" class="menu-link menu-toggle">
-                      <i class="menu-icon tf-icons bx bx-user-check"></i>
+                      <i class="menu-icon tf-icons bx bxs-user-check"></i>
                       <div data-i18n="Account Settings">Role Settings</div>
                   </a>
                   <ul class="menu-sub">
@@ -167,7 +167,7 @@
           @can('index-user')
               <li class="menu-item">
                   <a href="javascript:void(0);" class="menu-link menu-toggle">
-                      <i class="menu-icon tf-icons bx bx-user-plus"></i>
+                      <i class="menu-icon tf-icons bx bxs-user-plus"></i>
                       <div data-i18n="Account Settings">User Settings</div>
                   </a>
                   <ul class="menu-sub">
@@ -188,7 +188,7 @@
           @can('index-page')
               <li class="menu-item">
                   <a href="javascript:void(0);" class="menu-link menu-toggle">
-                      <i class="menu-icon tf-icons bx bx-book-open"></i>
+                      <i class="menu-icon tf-icons bx bxs-book-open"></i>
                       <div data-i18n="Account Settings">Page Builder</div>
                   </a>
                   <ul class="menu-sub">
@@ -209,7 +209,7 @@
           @can('index-backup')
               <li class="menu-item">
                   <a href="javascript:void(0);" class="menu-link menu-toggle">
-                      <i class="menu-icon tf-icons bx bx-data"></i>
+                      <i class="menu-icon tf-icons bx bxs-data"></i>
                       <div data-i18n="Account Settings">Backup Center</div>
                   </a>
                   <ul class="menu-sub">
