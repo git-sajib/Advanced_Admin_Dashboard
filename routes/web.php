@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\HomeController;
@@ -45,6 +46,13 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     //Backup Routes
     Route::resource('/backup', BackupController::class)->only(['index', 'store', 'destroy']);
     Route::get('/backup/download/{file_name}', [BackupController::class, 'download'])->name('backup.download');
+
+    // System Setting Management Routes
+    Route::group(['as' => 'settings.', 'prefix' => 'settings'], function () {
+        Route::get('general', [SettingController::class, 'general'])->name('general');
+        Route::post('general', [SettingController::class, 'generalUpdate'])->name('general.update');
+    });
+
 
     // Active or Inactive Routes
     Route::get('check/user/is_active/{user_id}', [UserController::class, 'checkActive'])->name('user.is_active.ajax');
