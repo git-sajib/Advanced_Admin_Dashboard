@@ -51,7 +51,7 @@
                             </div>
                         </div>
 
-                        <div class="row mb-0">
+                        <div class="row mb-5">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
@@ -62,6 +62,21 @@
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif
+                            </div>
+                        </div>
+
+                        <div class="row mb-0">
+                            <div class="col-md-4 offset-md-1">
+                                <a href="{{ route('login.provider', ['provider' => 'github']) }}" class="btn btn-secondary">
+                                    <i class="menu-icon tf-icons bx bxl-github"></i>
+                                    <span>Login with GitHub</span>
+                                </a>
+                            </div>
+                            <div class="col-md-4 offset-md-1">
+                                <a href="{{ route('login.provider', ['provider' => 'google']) }}" class="btn btn-danger">
+                                    <i class="menu-icon tf-icons bx bxl-google"></i>
+                                    <span>Login with Google</span>
+                                </a>
                             </div>
                         </div>
                     </form>
