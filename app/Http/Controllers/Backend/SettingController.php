@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\AppearanceUpdateRequest;
-use App\Http\Requests\GeneralSettingUpdateRequest;
-use App\Http\Requests\MailSettingUpdateRequest;
 use App\Models\Setting;
-use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\SocialiteUpdateRequest;
+use App\Http\Requests\AppearanceUpdateRequest;
+use App\Http\Requests\MailSettingUpdateRequest;
+use App\Http\Requests\GeneralSettingUpdateRequest;
 
 class SettingController extends Controller
 {
@@ -100,11 +102,13 @@ class SettingController extends Controller
 
     public function mailView()
     {
+        Gate::authorize('mail-setting-view');
         return view('admin.pages.settings.mail');
     }
 
     public function mailUpdate(MailSettingUpdateRequest $request)
     {
+        Gate::authorize('mail-setting-update');
         Setting::updateOrCreate(
             ['name' => 'mail_mailer'],
             ['value' => $request->mail_mailer],
@@ -152,17 +156,67 @@ class SettingController extends Controller
         return back();
     }
 
+    public function socialiteView()
+    {
+        Gate::authorize('socialite-setting-view');
+        return view('admin.pages.settings.socialite');
+    }
+
+    public function socialiteUpdate(SocialiteUpdateRequest $request)
+    {
+        Gate::authorize('socialite-setting-update');
+        Setting::updateOrCreate(
+            ['name' => 'git_client_id'],
+            ['value' => $request->git_client_id],
+        );
+        Setting::updateOrCreate(
+            ['name' => 'git_client_secret'],
+            ['value' => $request->git_client_secret],
+        );
+        Setting::updateOrCreate(
+            ['name' => 'git_client_redirect'],
+            ['value' => $request->git_client_redirect],
+        );
+        Setting::updateOrCreate(
+            ['name' => 'google_client_id'],
+            ['value' => $request->google_client_id],
+        );
+        Setting::updateOrCreate(
+            ['name' => 'google_client_secret'],
+            ['value' => $request->google_client_secret],
+        );
+        Setting::updateOrCreate(
+            ['name' => 'google_client_redirect'],
+            ['value' => $request->google_client_redirect],
+        );
+
+        //update .env
+        $this->setEnvValue('GITHUB_CLIENT_ID', $request->git_client_id);
+        $this->setEnvValue('GITHUB_CLIENT_SECRET', $request->git_client_secret);
+        $this->setEnvValue('GITHUB_CLIENT_REDIRECT', $request->git_client_redirect);
+        $this->setEnvValue('GOOGLE_CLIENT_ID', $request->google_client_id);
+        $this->setEnvValue('GOOGLE_CLIENT_SECRET', $request->google_client_secret);
+        $this->setEnvValue('GOOGLE_CLIENT_REDIRECT', $request->google_client_redirect);
+
+        Toastr::success('Socialite Setting Updated Successfully!');
+        return back();
+    }
+
     protected function setEnvValue(string $key, string $value)
-    {   // plz update the from repository of this project
-        // $path = app()->environmentFilePath();
-        // $env = file_get_contents($path);
+    {
+        $path = app()->environmentFilePath();
+        $env = file_get_contents($path);
 
-        // $old_value = env($key);
+        $old_value = env($key);
 
-        // if (!str_contains($env, $key . '=')) {
-        //     $env .= sprintf("%s=%s\n", $key, $value);
-        // } else if ($old_value) {
-        //     env = str_replace(sprintf('%s=%s', $key, $old_value), sprintf())
-        // }
+        if (!str_contains($env, $key . '=')) {
+            $env .= sprintf("%s=%s\n", $key, $value);
+        } else if ($old_value) {
+            $env = str_replace(sprintf('%s=%s', $key, $old_value), sprintf('%s=%s', $key, $value), $env);
+        } else {
+            $env = str_replace(sprintf('%s=', $key), sprintf('%s=%s', $key, $value), $env);
+        }
+
+        file_put_contents($path, $env);
     }
 }
