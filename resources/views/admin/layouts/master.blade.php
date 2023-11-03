@@ -40,15 +40,14 @@
                                     <div class="d-flex align-items-end row">
                                         <div class="col-sm-7">
                                             <div class="card-body">
-                                                <h5 class="card-title text-primary">Welcome John! 🎉</h5>
+                                                <h4 class="card-title text-primary">Welcome to admin dashboard {{ Auth::user()->name}} 🎉</h4>
                                                 <p class="mb-4">
-                                                    You have done <span class="fw-bold">72%</span> more sales today.
-                                                    Check your new badge in
-                                                    your profile.
+                                                    You have signed in as an <span class="fw-bold">{{ Auth::user()->role->role_name }}</span> into this system.
                                                 </p>
-
-                                                <a href="javascript:;" class="btn btn-sm btn-outline-primary">View
-                                                    Badges</a>
+                                                <div class="div">
+                                                    <strong>Date and time:</strong>
+                                                </div>
+                                                <a href="javascript:;" class="btn btn-sm btn-outline-primary" id="current-time"></a>
                                             </div>
                                         </div>
                                         <div class="col-sm-5 text-center text-sm-left">
@@ -87,6 +86,18 @@
     <!-- / Layout wrapper -->
 
     @include('admin.layouts.inc.script')
+    <script>
+        // JavaScript code to display the current time
+        function updateCurrentTime() {
+            const currentTimeElement = document.getElementById('current-time');
+            const currentTime = new Date();
+            currentTimeElement.textContent = currentTime.toLocaleString();
+        }
+
+        // Update the current time immediately and set an interval to update it every second
+        updateCurrentTime();
+        setInterval(updateCurrentTime, 1000);
+    </script>
 </body>
 
 </html>
